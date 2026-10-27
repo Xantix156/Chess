@@ -1,4 +1,74 @@
 package software.ulpgc.chess.domain.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Board {
+
+    private final Map<Square, Piece> pieces;
+
+    public static Board initial() {
+        return new Board(initialPieces());
+    }
+
+    private static Map<Square, Piece> initialPieces() {
+        return Map.ofEntries(
+                Map.entry(Square.at("a1"), Piece.WhiteRook),
+                Map.entry(Square.at("b1"), Piece.WhiteKnight),
+                Map.entry(Square.at("c1"), Piece.WhiteBishop),
+                Map.entry(Square.at("d1"), Piece.WhiteQueen),
+                Map.entry(Square.at("e1"), Piece.WhiteKing),
+                Map.entry(Square.at("f1"), Piece.WhiteBishop),
+                Map.entry(Square.at("g1"), Piece.WhiteKnight),
+                Map.entry(Square.at("h1"), Piece.WhiteRook),
+                Map.entry(Square.at("a2"), Piece.WhitePawn),
+                Map.entry(Square.at("b2"), Piece.WhitePawn),
+                Map.entry(Square.at("c2"), Piece.WhitePawn),
+                Map.entry(Square.at("d2"), Piece.WhitePawn),
+                Map.entry(Square.at("e2"), Piece.WhitePawn),
+                Map.entry(Square.at("f2"), Piece.WhitePawn),
+                Map.entry(Square.at("g2"), Piece.WhitePawn),
+                Map.entry(Square.at("h2"), Piece.WhitePawn),
+                Map.entry(Square.at("a7"), Piece.BlackPawn),
+                Map.entry(Square.at("b7"), Piece.BlackPawn),
+                Map.entry(Square.at("c7"), Piece.BlackPawn),
+                Map.entry(Square.at("d7"), Piece.BlackPawn),
+                Map.entry(Square.at("e7"), Piece.BlackPawn),
+                Map.entry(Square.at("f7"), Piece.BlackPawn),
+                Map.entry(Square.at("g7"), Piece.BlackPawn),
+                Map.entry(Square.at("h7"), Piece.BlackPawn),
+                Map.entry(Square.at("a8"), Piece.BlackRook),
+                Map.entry(Square.at("b8"), Piece.BlackKnight),
+                Map.entry(Square.at("c8"), Piece.BlackBishop),
+                Map.entry(Square.at("d8"), Piece.BlackQueen),
+                Map.entry(Square.at("e8"), Piece.BlackKing),
+                Map.entry(Square.at("f8"), Piece.BlackBishop),
+                Map.entry(Square.at("g8"), Piece.BlackKnight),
+                Map.entry(Square.at("h8"), Piece.BlackRook)
+        );
+    }
+
+    public Board move(Square from, Square to) {
+        Piece piece = pieceAt(from);
+        Map<Square, Piece> movedPieces = new HashMap<>(pieces);
+        movedPieces.remove(from);
+        movedPieces.put(to, piece);
+        return new Board(movedPieces);
+    }
+
+    public Board(Map<Square, Piece> pieces) {
+        this.pieces = Map.copyOf(pieces);
+    }
+
+    Piece pieceAt(File file, Rank rank) {
+        return pieceAt(new Square(file, rank));
+    }
+
+    private Piece pieceAt(String square) {
+        return pieceAt(Square.at(square));
+    }
+
+    private Piece pieceAt(Square square) {
+        return pieces.get(square);
+    }
 }

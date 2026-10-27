@@ -19,7 +19,6 @@ public enum Piece {
 
     Color color(){
         return isWhite() ? White : Black;
-
     }
 
     boolean isPawn(){
